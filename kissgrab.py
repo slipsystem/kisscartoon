@@ -13,15 +13,18 @@ logging.basicConfig(level=logging.ERROR, format='[%(levelname)s] : %(message)s')
 
 def download(url, name, quiet=False):
     path = ".%s%s" % (os.sep, name)
-    if os.path.isfile(path):
-        return
-    else:
+    linksopen = open('got.txt','r+' )
+    linksread = linksopen.read()
+    if path not in linksread: 
         obj = SmartDL(url, path)
         try:
             obj.start()
+            fileopen = open('got.txt','r+' )
+            plines = fileopen.read()
+            file = open('got.txt','w' )
+            file.write(plines + path + '\n')
         except KeyboardInterrupt:
             obj.stop()
-
 
 parser = argparse.ArgumentParser()
 parser.add_argument("show")
@@ -37,7 +40,6 @@ if args.verbose:
     logging.getLogger().setLevel(logging.INFO)
 
 scraper = cfscrape.create_scraper()
-
 for show in Show.__subclasses__():
     showinstance = show(None, args.show)
     if showinstance.is_valid():
