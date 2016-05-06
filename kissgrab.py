@@ -1,6 +1,8 @@
 import argparse
 import logging
 import os
+import time
+import config
 
 import cfscrape
 from pySmartDL import SmartDL
@@ -10,19 +12,34 @@ from shows import *
 
 logging.basicConfig(level=logging.ERROR, format='[%(levelname)s] : %(message)s')
 
+SeriesList = config.SeriesList
+GotList = config.GotList
+DownloadPath = config.DownloadPath
+
+if os.path.exists(SeriesList):
+    f = file(SeriesList, "r+")
+else:
+    f = file(SeriesList, "w")
+	
+if os.path.exists(GotList):
+    f = file(GotList, "r+")
+else:
+    f = file(GotList, "w")
 
 def download(url, name, quiet=False):
-    path = ".%s%s" % (os.sep, name)
-    linksopen = open('got.txt','r+' )
+    path = DownloadPath + "%s%s" % (os.sep, name)
+    EpisodeName = "%s%s" % (os.sep, name)
+    linksopen = open(GotList,'r+' )
     linksread = linksopen.read()
-    if path not in linksread: 
+    time.sleep(5)
+    if EpisodeName not in linksread: 
         obj = SmartDL(url, path)
         try:
             obj.start()
-            fileopen = open('got.txt','r+' )
+            fileopen = open(GotList,'r+' )
             plines = fileopen.read()
-            file = open('got.txt','w' )
-            file.write(plines + path + '\n')
+            file = open(GotList,'w' )
+            file.write(plines + EpisodeName + '\n')
         except KeyboardInterrupt:
             obj.stop()
 

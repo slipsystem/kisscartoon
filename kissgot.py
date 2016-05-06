@@ -1,6 +1,8 @@
 import argparse
 import logging
 import os
+import time
+import config
 
 import cfscrape
 from pySmartDL import SmartDL
@@ -10,17 +12,31 @@ from shows import *
 
 logging.basicConfig(level=logging.ERROR, format='[%(levelname)s] : %(message)s')
 
+GotList = config.GotList
+SeriesList = config.SeriesList
+
+if os.path.exists(SeriesList):
+    f = file(SeriesList, "r+")
+else:
+    f = file(SeriesList, "w")
+	
+if os.path.exists(GotList):
+    f = file(GotList, "r+")
+else:
+    f = file(GotList, "w")
+
 
 def download(url, name, quiet=False):
     path = ".%s%s" % (os.sep, name)
-    linksopen = open('got.txt','r+' )
+    linksopen = open(GotList,'r+' )
     linksread = linksopen.read()
+    time.sleep(5)
     if path not in linksread:
         obj = SmartDL(url, path)
         try:
-            fileopen = open('got.txt','r+' )
+            fileopen = open(GotList,'r+' )
             plines = fileopen.read()
-            file = open('got.txt','w' )
+            file = open(GotList,'w' )
             file.write(plines + path + '\n')
         except KeyboardInterrupt:
             obj.stop()
@@ -41,9 +57,9 @@ args = parser.parse_args()
 if args.verbose:
     logging.getLogger().setLevel(logging.INFO)
 
-fileopen = open('series.txt','r+' )
+fileopen = open(SeriesList,'r+' )
 plines = fileopen.read()
-file = open('series.txt','w' )
+file = open(SeriesList,'w' )
 file.write(plines + args.show + '\n')
 
 scraper = cfscrape.create_scraper()

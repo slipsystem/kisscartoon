@@ -1,45 +1,9 @@
-# Kisscartoon and Kissanime Batch Downloader
+# SlipCartoon
 
-Get's and downloads Videos from Kisscartoon and Kissanime
-
-# Changelog
-
-* Fixed Link Decryption
-* Rewrote Core
+Updates Series from Kisscartoon and Kissanime
 
 
-# Usage
-
-
-```./python kissgrab.py <cartoon page> ```
-
-If you want extra Information add -v or --verbose
-
-```./python kisscartoon.py -v <cartoon page> ```
-
-If you want to handle the downloading yourself use --only-links or -l to just print the links
-
-```./python kisscartoon.py -l <cartoon page> ```
-
-If you want the links written to a File use --save-links or -s to save them to links.txt
-
-```./python kisscartoon.py -s <cartoon page> ```
-
-If you want the links as a HTML List use --html or -d to save them to download.html
-
-```./python kisscartoon.py -s <cartoon page> ```
-
-If you don't want the highest quality ( it's the default setting ) you can add -q or --low-quality to get the lowest available quality
-
-```./python kisscartoon.py -q <cartoon page> ```
-
-
-Those Operators are freely combinable
-
-
-```./python kisscartoon.py -q -s http://kisscartoon.me/Cartoon/Aqua-Teen-Hunger-Force-Season-10```
-
-# Requirements
+# Python Requirements
 
 Python :
 
@@ -53,7 +17,21 @@ Python :
 
 All of the dependencies are available via pip and easy_install
 
+# Install Guide
 
- 
+Windows :
+
+* Install [Python 2.7](https://www.python.org/downloads/windows/)
+	Add python.exe to Path
+* Install [C++ Python Compiler](https://www.microsoft.com/en-us/download/confirmation.aspx?id=44266)
+* Install [PyV8](https://code.google.com/archive/p/pyv8/downloads)
+* Open Command Prompt and type
+	pip install cfscrape
+	pip install BeautifulSoup4
+	pip install pySmartDL
+	pip install pyCrypto
+
+
+
 
 
