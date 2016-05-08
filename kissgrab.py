@@ -27,7 +27,8 @@ else:
     f = file(GotList, "w")
 
 def download(url, name, quiet=False):
-    path = DownloadPath + "%s%s" % (os.sep, name)
+    SeriesName = showinstance.show
+    path = DownloadPath + os.sep + SeriesName.replace("-", " ") + "%s%s" % (os.sep, name)
     EpisodeName = "%s%s" % (os.sep, name)
     linksopen = open(GotList,'r+' )
     linksread = linksopen.read()

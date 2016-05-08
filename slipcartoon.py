@@ -14,5 +14,5 @@ else:
 
 for line in open(SeriesList):
     print 'checking for updates on ' + line
-    subprocess.call(" python " + InstallDir + "kissgrab.py" + Qality + line, shell=True)
+    subprocess.call(" python " + InstallDir + os.sep + "kissgrab.py" + Qality + line, shell=True)
     time.sleep(5)
