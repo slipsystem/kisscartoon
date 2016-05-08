@@ -1,7 +1,6 @@
 # SlipCartoon
 
 Updates Series from Kisscartoon and Kissanime
-all credits goes to wlan22 for 
 
 #Credits
 
@@ -9,7 +8,9 @@ all credits go to wlan22 for making this script
 
 [Kisscartoon](https://github.com/wlan222/kisscartoon)
 
-Without him this would not be possible. I only added the ability to do multiple series.
+Without him this would not be possible. 
+
+I only added the ability to do multiple series.
 
 # Usage
 
@@ -55,7 +56,9 @@ Windows :
 	* pip install cfscrape
 	* pip install BeautifulSoup4
 	* pip install pySmartDL
-	* pip install pyCrypto
+	* pip install pyCrypto	
+* Download [slipcartoon.zip](https://github.com/slipsystem/kisscartoon/archive/master.zip)
+* Extract it
 * Edit The config.py
     * SeriesList = Path to series.txt
     * GotList = Path to got.txt
