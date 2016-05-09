@@ -29,12 +29,14 @@ else:
 def download(url, name, quiet=False):
     SeriesName = showinstance.show
     path = DownloadPath + os.sep + SeriesName.replace("-", " ") + "%s%s" % (os.sep, name)
+    patha = path.replace(":", "")
+    pathb = patha.replace("!", "")
     EpisodeName = "%s%s" % (os.sep, name)
     linksopen = open(GotList,'r+' )
     linksread = linksopen.read()
     time.sleep(5)
     if EpisodeName not in linksread: 
-        obj = SmartDL(url, path)
+        obj = SmartDL(url, pathb)
         try:
             obj.start()
             fileopen = open(GotList,'r+' )
