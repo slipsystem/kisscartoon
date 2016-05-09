@@ -27,7 +27,7 @@ else:
 
 
 def download(url, name, quiet=False):
-    path = ".%s%s" % (os.sep, name)
+    path = "%s%s" % (os.sep, name)
     linksopen = open(GotList,'r+' )
     linksread = linksopen.read()
     time.sleep(5)
