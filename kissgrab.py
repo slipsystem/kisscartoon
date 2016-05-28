@@ -29,7 +29,8 @@ else:
 def download(url, name, quiet=False):
     SeriesName = showinstance.show
     path = "%s%s" % (os.sep, name)
-    patha = path.replace(":", "")
+    pathc = path.replace("?", "")
+    patha = pathc.replace(":", "")
     pathb = DownloadPath + os.sep + SeriesName.replace("-", " ") + patha.replace("!", "")
     EpisodeName = "%s%s" % (os.sep, name)
     linksopen = open(GotList,'r+' )
@@ -42,7 +43,7 @@ def download(url, name, quiet=False):
             fileopen = open(GotList,'r+' )
             plines = fileopen.read()
             file = open(GotList,'w' )
-            file.write(plines + EpisodeName + '\n')
+            file.write(plines + episode.source + '\n')
         except KeyboardInterrupt:
             obj.stop()
 
@@ -66,42 +67,45 @@ for show in Show.__subclasses__():
         showinstance.get_episodes(scraper)
         logging.info('Show : {show}'.format(show=showinstance.show))
         for episode in showinstance.episodes:
-            episode.get_links(scraper)
-            if args.only_links:
-                if args.low_quality:
-                    print episode.links[-1].link
-                else:
-                    print episode.links[0].link
-            elif not args.save_links and not args.html:
-                logging.info('Downloading : {file}'.format(file=episode.title))
-                if args.low_quality:
-                    download(episode.links[-1].link, '{title}.mp4'.format(title=episode.title))
-                else:
-                    download(episode.links[0].link, '{title}.mp4'.format(title=episode.title))
-        if args.save_links:
-            with open('links.txt', 'w') as linkfile:
-                for episode in showinstance.episodes:
+            linksopen = open(GotList,'r+' )
+            linksread = linksopen.read()
+            if episode.source not in linksread:
+                episode.get_links(scraper)
+                if args.only_links:
                     if args.low_quality:
-                        linkfile.write(episode.links[-1].link)
+                        print episode.links[-1].link
                     else:
-                        linkfile.write(episode.links[0].link)
-                    linkfile.write('\n')
-            logging.info('Saved links to links.txt')
-        if args.html:
-            with open('download.html', 'w') as linkfile:
-                linkfile.write('<html><head><title>{show}</title></head><body>'.format(show=showinstance.show))
-                for episode in showinstance.episodes:
+                        print episode.links[0].link
+                elif not args.save_links and not args.html:
+                    logging.info('Downloading : {file}'.format(file=episode.title))
                     if args.low_quality:
-                        link = episode.links[-1].link
+                        download(episode.links[-1].link, '{title}.mp4'.format(title=episode.title))
                     else:
-                        link = episode.links[0].link
-                    req = urllib2.Request(link)
-                    res = urllib2.urlopen(req)
-                    finalurl = res.geturl()
-                    linkfile.write(
-                        '<a href="{link}" download="{file}">{title}</a>'.format(link=finalurl,
+                        download(episode.links[0].link, '{title}.mp4'.format(title=episode.title))
+            if args.save_links:
+                with open('links.txt', 'w') as linkfile:
+                    for episode in showinstance.episodes:
+                        if args.low_quality:
+                            linkfile.write(episode.links[-1].link)
+                        else:
+                            linkfile.write(episode.links[0].link)
+                        linkfile.write('\n')
+                logging.info('Saved links to links.txt')
+            if args.html:
+                with open('download.html', 'w') as linkfile:
+                    linkfile.write('<html><head><title>{show}</title></head><body>'.format(show=showinstance.show))
+                    for episode in showinstance.episodes:
+                        if args.low_quality:
+                            link = episode.links[-1].link
+                        else:
+                            link = episode.links[0].link
+                            req = urllib2.Request(link)
+                        res = urllib2.urlopen(req)
+                        finalurl = res.geturl()
+                        linkfile.write(
+                            '<a href="{link}" download="{file}">{title}</a>'.format(link=finalurl,
                                                                                 file=episode.title.replace(" ", ""),
                                                                                 title=episode.title))
-                    linkfile.write('<br>')
-                linkfile.write('</body></html>')
-            logging.info('Saved links to download.html')
+                        linkfile.write('<br>')
+                    linkfile.write('</body></html>')
+                logging.info('Saved links to download.html')
