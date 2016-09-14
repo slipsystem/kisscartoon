@@ -55,7 +55,8 @@ for show in Show.__subclasses__():
             linksopen = open(GotList,'r+' )
             linksread = linksopen.read()
             if episode.source not in linksread:
+                print episode.source
                 fileopen = open(GotList,'r+' )
                 plines = fileopen.read()
-                file = open(GotList,'w' )
-                file.write(plines + episode.source + '\n')
+                file = open(GotList,'a+' )
+                file.write(episode.source + '\n')

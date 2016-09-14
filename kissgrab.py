@@ -36,7 +36,7 @@ def download(url, name, quiet=False):
     linksopen = open(GotList,'r+' )
     linksread = linksopen.read()
     time.sleep(5)
-    if EpisodeName not in linksread: 
+    if episode.source not in linksread: 
         obj = SmartDL(url, pathb)
         try:
             obj.start()
